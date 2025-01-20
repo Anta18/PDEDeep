@@ -12,7 +12,7 @@ class BSDESolver(object):
         self.eqn_config = config.eqn_config
         self.net_config = config.net_config
         self.bsde = bsde
-        self.log_dir = log_dir  # Use passed log_dir
+        self.log_dir = log_dir
 
         self.model = NonsharedModel(config, bsde)
         lr_schedule = tf.keras.optimizers.schedules.PiecewiseConstantDecay(
@@ -144,8 +144,7 @@ class FeedForwardSubNet(tf.keras.Model):
         for i in range(len(self.dense_layers)):
             residual = self.dense_layers[i](x)
             residual = self.bn_layers[i + 1](residual, training=training)
-            residual = tf.nn.relu(residual)
-            # Apply skip connection only if dimensions match
+            residual = tf.nn.tanh(residual)
             if x.shape[-1] == residual.shape[-1]:
                 x = x + residual
             else:

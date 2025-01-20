@@ -16,7 +16,7 @@ import equation as eqn
 from solver import BSDESolver
 from greeks import (
     compute_greeks,
-)  # Import compute_greeks for automatic Greek computation
+)
 
 flags.DEFINE_string(
     "config_path", "configs/hjb_lq_d100.json", """The path to load json file."""
@@ -25,12 +25,11 @@ flags.DEFINE_string(
     "exp_name", "test", """The name of numerical experiments, prefix for logging"""
 )
 FLAGS = flags.FLAGS
-FLAGS.log_dir = "./logs"  # directory where to write event logs and output array
+FLAGS.log_dir = "./logs"
 
 
 def main(argv):
     del argv
-    # Set reproducibility seeds
     np.random.seed(42)
     tf.random.set_seed(42)
 
@@ -91,7 +90,6 @@ def main(argv):
         comments="",
     )
 
-    # Automatically compute Greeks after training
     model = bsde_solver.model
     subnet_for_greeks = model.subnet[0]
     dim = config.eqn_config.dim

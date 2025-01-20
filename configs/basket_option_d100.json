@@ -7,11 +7,11 @@
       "num_time_interval": 20
     },
     "net_config": {
-      "y_init_range": [0, 1],
+      "y_init_range": [65, 70],
       "num_hiddens": [110, 110],
       "lr_values": [1e-2, 1e-2],
       "lr_boundaries": [1000],
-      "num_iterations": 2000,
+      "num_iterations": 9000,
       "batch_size": 64,
       "valid_size": 256,
       "logging_frequency": 100,

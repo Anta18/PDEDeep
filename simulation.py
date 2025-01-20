@@ -12,7 +12,6 @@ def simulate_paths_with_jumps(X0, mu, sigma, J, lambda_, N, T, M, d):
     paths[:, 0, :] = X0
     for n in range(1, N + 1):
         Z = np.random.normal(size=(M, d))
-        # Simulate Poisson jumps for each asset
         jumps = np.random.poisson(lambda_ * dt, size=(M, d))
         jump_component = J * jumps
         paths[:, n, :] = (

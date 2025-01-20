@@ -1,0 +1,22 @@
+{
+    "eqn_config": {
+      "_comment": "Basket Put Option PDE with risk-neutral pricing",
+      "eqn_name": "BasketPut",
+      "total_time": 1.0,
+      "dim": 100,
+      "num_time_interval": 50
+    },
+    "net_config": {
+      "y_init_range": [0.005, 0.03],
+      "num_hiddens": [128,128,128],
+      "lr_values": [5e-4, 1e-4],
+      "lr_boundaries": [2000],
+      "num_iterations": 10000,
+      "batch_size": 128,
+      "valid_size": 256,
+      "logging_frequency": 100,
+      "dtype": "float64",
+      "verbose": true
+    }
+  }
+  
