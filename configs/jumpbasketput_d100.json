@@ -1,0 +1,22 @@
+{
+    "eqn_config": {
+      "_comment": "Basket Put Option PDE with jump-diffusion dynamics",
+      "eqn_name": "JumpBasketPut",
+      "total_time": 1.0,
+      "dim": 100,
+      "num_time_interval": 100
+    },
+    "net_config": {
+      "y_init_range": [0.05, 0.15],
+      "num_hiddens": [256, 256, 256],
+      "lr_values": [1e-4, 5e-5, 1e-5],
+      "lr_boundaries": [3000, 6000],
+      "num_iterations": 10000,
+      "batch_size": 128,
+      "valid_size": 512,
+      "logging_frequency": 100,
+      "dtype": "float64",
+      "verbose": true
+    }
+  }
+  

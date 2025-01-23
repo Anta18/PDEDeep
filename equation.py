@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+from simulation import simulate_paths_with_jumps
 
 
 class Equation(object):
@@ -459,3 +460,46 @@ class SumCallOption(Equation):
     def g_tf(self, t, x):
         sum_x = tf.reduce_sum(x, axis=1, keepdims=True)
         return tf.maximum(sum_x - self.K, 0)
+
+
+class JumpBasketPut(Equation):
+    """
+    Basket Put Option PDE with jump-diffusion dynamics.
+    Extends the BasketPut model by including jump components in the simulation.
+    """
+
+    def __init__(self, eqn_config):
+        super(JumpBasketPut, self).__init__(eqn_config)
+        self.dim = eqn_config.dim
+        self.total_time = eqn_config.total_time
+        self.num_time_interval = eqn_config.num_time_interval
+        self.delta_t = self.total_time / self.num_time_interval
+        self.sqrt_delta_t = np.sqrt(self.delta_t)
+        self.x_init = np.ones(self.dim) * 100.0
+        self.sigma = 0.2
+        self.r = 0.05
+        self.K = 100.0
+
+        self.mu = 0.02
+        self.jump_size = 5.0
+        self.jump_intensity = 0.1
+
+    def sample(self, num_sample):
+        return simulate_paths_with_jumps(
+            X0=self.x_init,
+            mu=self.mu,
+            sigma=self.sigma,
+            J=self.jump_size,
+            lambda_=self.jump_intensity,
+            N=self.num_time_interval,
+            T=self.total_time,
+            M=num_sample,
+            d=self.dim,
+        )
+
+    def f_tf(self, t, x, y, z):
+        return -self.r * y
+
+    def g_tf(self, t, x):
+        min_x = tf.reduce_min(x, axis=1, keepdims=True)
+        return tf.maximum(self.K - min_x, 0)
