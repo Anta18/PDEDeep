@@ -13,6 +13,7 @@ class Equation(object):
         self.delta_t = self.total_time / self.num_time_interval
         self.sqrt_delta_t = np.sqrt(self.delta_t)
         self.y_init = None
+        # Additional parameters for financial equations
         self.mu = mu
         self.sigma = sigma
         self.rate = rate
@@ -42,6 +43,8 @@ class PricingDefaultRisk(Equation):
         )
         self.x_init = np.ones(self.dim) * 100.0  # Initial asset price
         # Parameters specific to default risk can be added here if needed
+        # For simplicity, using standard Black-Scholes dynamics
+        # Optionally, extend this class to include default risk specifics
 
     def sample(self, num_sample):
         """
@@ -81,10 +84,10 @@ class PricingDefaultRisk(Equation):
 
 
 class HJBLQ(Equation):
-    """HJB equation"""
+    """HJB equation in PNAS paper doi.org/10.1073/pnas.1718942115"""
 
-    def __init__(self, eqn_config):
-        super(HJBLQ, self).__init__(eqn_config)
+    def __init__(self, eqn_config, mu=None, sigma=None, rate=None):
+        super(HJBLQ, self).__init__(eqn_config, mu=mu, sigma=sigma, rate=rate)
         self.x_init = np.zeros(self.dim)
         self.sigma = np.sqrt(2.0)
         self.lambd = 1.0
@@ -108,10 +111,10 @@ class HJBLQ(Equation):
 
 
 class AllenCahn(Equation):
-    """Allen-Cahn equation"""
+    """Allen-Cahn equation in PNAS paper doi.org/10.1073/pnas.1718942115"""
 
-    def __init__(self, eqn_config):
-        super(AllenCahn, self).__init__(eqn_config)
+    def __init__(self, eqn_config, mu=None, sigma=None, rate=None):
+        super(AllenCahn, self).__init__(eqn_config, mu=mu, sigma=sigma, rate=rate)
         self.x_init = np.zeros(self.dim)
         self.sigma = np.sqrt(2.0)
 
@@ -321,11 +324,12 @@ class JumpBasketPut(Equation):
 
 class BurgersType(Equation):
     """
-    Multidimensional Burgers-type PDE
+    Multidimensional Burgers-type PDE in Section 4.5 of Comm. Math. Stat. paper
+    doi.org/10.1007/s40304-017-0117-6
     """
 
-    def __init__(self, eqn_config):
-        super(BurgersType, self).__init__(eqn_config)
+    def __init__(self, eqn_config, mu=None, sigma=None, rate=None):
+        super(BurgersType, self).__init__(eqn_config, mu=mu, sigma=sigma, rate=rate)
         self.x_init = np.zeros(self.dim)
         self.y_init = 1 - 1.0 / (1 + np.exp(0 + np.sum(self.x_init) / self.dim))
         self.sigma = self.dim + 0.0
@@ -352,11 +356,14 @@ class BurgersType(Equation):
 
 class QuadraticGradient(Equation):
     """
-    An example PDE with quadratically growing derivatives
+    An example PDE with quadratically growing derivatives in Section 4.6 of Comm. Math. Stat. paper
+    doi.org/10.1007/s40304-017-0117-6
     """
 
-    def __init__(self, eqn_config):
-        super(QuadraticGradient, self).__init__(eqn_config)
+    def __init__(self, eqn_config, mu=None, sigma=None, rate=None):
+        super(QuadraticGradient, self).__init__(
+            eqn_config, mu=mu, sigma=sigma, rate=rate
+        )
         self.alpha = 0.4
         self.x_init = np.zeros(self.dim)
         base = self.total_time + np.sum(np.square(self.x_init) / self.dim)
@@ -402,11 +409,14 @@ class QuadraticGradient(Equation):
 
 class ReactionDiffusion(Equation):
     """
-    Time-dependent reaction-diffusion-type example PDE
+    Time-dependent reaction-diffusion-type example PDE in Section 4.7 of Comm. Math. Stat. paper
+    doi.org/10.1007/s40304-017-0117-6
     """
 
-    def __init__(self, eqn_config):
-        super(ReactionDiffusion, self).__init__(eqn_config)
+    def __init__(self, eqn_config, mu=None, sigma=None, rate=None):
+        super(ReactionDiffusion, self).__init__(
+            eqn_config, mu=mu, sigma=sigma, rate=rate
+        )
         self._kappa = 0.6
         self.lambd = 1 / np.sqrt(self.dim)
         self.x_init = np.zeros(self.dim)
@@ -448,8 +458,8 @@ class HeatEquation(Equation):
     PDE: u_t + (1/2)*Δu = 0 with a given terminal condition u(T,x) = g(x).
     """
 
-    def __init__(self, eqn_config):
-        super(HeatEquation, self).__init__(eqn_config)
+    def __init__(self, eqn_config, mu=None, sigma=None, rate=None):
+        super(HeatEquation, self).__init__(eqn_config, mu=mu, sigma=sigma, rate=rate)
         self.x_init = np.zeros(self.dim)
         self.sigma = np.sqrt(2.0)  # For standard heat diffusion
 
