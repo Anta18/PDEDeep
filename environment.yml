@@ -7,4 +7,5 @@ dependencies:
   - jupyterlab
   - pip
   - pip:
-    - tensorflow>=2.16
+      - tensorflow>=2.16
+      - yfinance

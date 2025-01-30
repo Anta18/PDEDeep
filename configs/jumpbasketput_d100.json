@@ -7,7 +7,7 @@
       "num_time_interval": 100
     },
     "net_config": {
-      "y_init_range": [0.05, 0.15],
+      "y_init_range": [14.05, 14.15],
       "num_hiddens": [256, 256, 256],
       "lr_values": [1e-4, 5e-5, 1e-5],
       "lr_boundaries": [3000, 6000],

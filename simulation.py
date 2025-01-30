@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def simulate_paths_with_jumps(X0, mu, sigma, J, lambda_, N, T, M, d):
     """
     Simulate M paths of a d-dimensional jump-diffusion process over N steps with:
